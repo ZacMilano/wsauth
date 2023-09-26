@@ -17,6 +17,9 @@ const API = {
 	register: async (user) => {
 		return await API.makePostRequest(`${API.endpoint}/register`, user);
 	},
+	checkAuthOptions: async (user) => {
+		return await API.makePostRequest(`${API.endpoint}/auth-options`, user);
+	},
 };
 
 export default API;

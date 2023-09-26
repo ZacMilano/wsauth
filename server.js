@@ -75,6 +75,20 @@ app.post("/auth/register", (req, res) => {
 	}
 });
 
+app.post("/auth/auth-options", (req, res) => {
+	const user = findUser(req.body.email);
+	if (user) {
+		res.send({
+			password: user.password !== null,
+			webauth: user.webauth !== null,
+			google: user.google !== null,
+		});
+	} else {
+		// Don't say whether or not user exists; say password is allowed, even if not possible
+		res.send({ password: true });
+	}
+});
+
 app.get("*", (req, res) => {
 	res.sendFile(__dirname + "public/index.html");
 });
