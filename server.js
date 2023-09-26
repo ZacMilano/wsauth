@@ -22,6 +22,12 @@ const protocol = "http";
 const port = 5050;
 const expectedOrigin = `${protocol}://${rpID}:${port}`;
 
+function findUser(email) {
+	const results = db.data.users.filter((u) => u.email == email);
+	if (results.length == 0) return undefined;
+	return results[0];
+}
+
 app.use(express.static("public"));
 app.use(express.json());
 app.use(
@@ -45,6 +51,27 @@ app.post("/auth/login", (req, res) => {
 	} else {
 		// User doesn't exist
 		res.send({ ok: false, message: "Data is invalid" });
+	}
+});
+
+app.post("/auth/register", (req, res) => {
+	const salt = bcrypt.genSaltSync(10);
+	const hash = bcrypt.hashSync(req.body.password, salt);
+
+	const user = {
+		name: req.body.name,
+		email: req.body.email,
+		password: hash,
+	};
+
+	const userFound = findUser(user.email);
+	if (userFound) {
+		res.send({ ok: false, message: "User already exists!" });
+	} else {
+		// Create new user
+		db.data.users.push(user);
+		db.write();
+		res.send({ ok: true });
 	}
 });
 
