@@ -4,6 +4,13 @@ import Router from "./Router.js";
 const Auth = {
 	isLoggedIn: false,
 	account: null,
+	loginStep: 1,
+	logout() {
+		Auth.isLoggedIn = false;
+		Auth.account = null;
+		Auth.updateStatus();
+		Router.go("/");
+	},
 	async login(event) {
 		event.preventDefault();
 		const user = {
