@@ -1,5 +1,5 @@
 const API = {
-	endpoint: "/auth/",
+	endpoint: "/auth",
 	// ADD HERE ALL THE OTHER API FUNCTIONS
 	makePostRequest: async (url, data) => {
 		const response = await fetch(url, {
@@ -12,10 +12,10 @@ const API = {
 		return await response.json();
 	},
 	login: async (user) => {
-		return await API.makePostRequest(API.endpoint + "login", user);
+		return await API.makePostRequest(`${API.endpoint}/login`, user);
 	},
 	register: async (user) => {
-		return await API.makePostRequest(API.endpoint + "register", user);
+		return await API.makePostRequest(`${API.endpoint}/register`, user);
 	},
 };
 
