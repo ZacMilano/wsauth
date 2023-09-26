@@ -4,6 +4,7 @@ import Router from "./Router.js";
 const Auth = {
 	isLoggedIn: false,
 	account: null,
+	challenge: null,
 	loginStep: 1,
 	logout() {
 		Auth.isLoggedIn = false;
@@ -26,6 +27,7 @@ const Auth = {
 			!response.webauthn;
 
 		Auth.loginStep = 2;
+		Auth.challenge = response.challenge;
 	},
 	async login(event) {
 		event.preventDefault();
