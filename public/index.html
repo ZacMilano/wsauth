@@ -18,8 +18,9 @@
 	<link rel="apple-touch-icon" href="images/icons/icon.png">
 	<link rel="icon" href="images/icons/icon.png">
 
-	<script src="scripts/app.js" type="module"></script>
+	<script src="https://unpkg.com/@simplewebauthn/browser/dist/bundle/index.umd.min.js"></script>
 
+	<script src="scripts/app.js" type="module"></script>
 </head>
 
 <body>
@@ -86,7 +87,11 @@
 					</section>
 
 					<section hidden id="login_section_webauthn">
-						<!-- TODO -->
+						<hr />
+
+						<a href="#" class="navlink" onclick="event.preventDefault(); Auth.webAuthnLogin()">
+							OR: Log in with your Authenticator / Passkey
+						</a>
 					</section>
 				</fieldset>
 
@@ -109,6 +114,8 @@
 				<dt>Email</dt>
 				<dd class="account_username"></dd>
 			</dl>
+
+			<button onclick="Auth.addWebAuthn()">Add Passkey / Authenticator</button>
 
 			<button onclick="Auth.logout()">Log out</button>
 		</section>

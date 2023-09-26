@@ -89,6 +89,38 @@ const Auth = {
 			} catch (e) {}
 		}
 	},
+	addWebAuthn: async () => {
+		const options = await API.webAuthn.registrationOptions();
+		options.authenticatorSelection.residentKey = "required";
+		options.authenticatorSelection.requireResidentKey = true;
+		options.extensions = {
+			credProps: true,
+		};
+		const authRes = await SimpleWebAuthnBrowser.startRegistration(options);
+		const verificationRes = await API.webAuthn.registrationVerification(
+			authRes
+		);
+		if (verificationRes.ok) {
+			alert("You can now login using the registered method!");
+		} else {
+			alert(verificationRes.message);
+		}
+	},
+	webAuthnLogin: async () => {
+		const email = document.getElementById("login_email").value;
+		const options = await API.webAuthn.loginOptions(email);
+		const loginRes = await SimpleWebAuthnBrowser.startAuthentication(options);
+		const verificationRes = await API.webAuthn.loginVerification(
+			email,
+			loginRes
+		);
+		if (verificationRes) {
+			// Passkey worked, and we have a user to log in
+			Auth.postLogin(verificationRes, verificationRes.user);
+		} else {
+			alert(verificationRes.message);
+		}
+	},
 	updateStatus() {
 		if (Auth.isLoggedIn && Auth.account) {
 			document

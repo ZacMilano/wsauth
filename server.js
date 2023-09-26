@@ -80,7 +80,7 @@ app.post("/auth/auth-options", (req, res) => {
 	if (user) {
 		res.send({
 			password: user.password !== null,
-			webauth: user.webauth !== null,
+			webauthn: user.webauthn !== null,
 			google: user.google !== null,
 		});
 	} else {
